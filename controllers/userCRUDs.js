@@ -2,7 +2,7 @@ const { User, Thought } = require("../models");
 
 //user create read update delete
 const userCRUDs = {
-  //get users
+  //get all users
   async getUsers(req, res) {
     try {
       const users = await User.find().select("-__v");
@@ -12,7 +12,7 @@ const userCRUDs = {
     }
   },
 
-  //get single user by id
+  //get single user by _id
   async getUser(req, res) {
     try {
       //find user by _id:
