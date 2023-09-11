@@ -16,7 +16,7 @@ const userCRUDs = {
   async getUser(req, res) {
     try {
       //find user by _id:
-      const user = await User.findById({ _id: req.params.userId })
+      const user = await User.findById(req.params.userId)
         .select("-__v")
         .populate("friends")
         .populate("thoughts");
@@ -44,7 +44,7 @@ const userCRUDs = {
   async updateUser(req, res) {
     try {
       const updatedUser = await User.findByIdAndUpdate(
-        { _id: req.params.id },
+        req.params.id,
         { $set: req.body },
         { runValidators: true, new: true }
       );
@@ -62,7 +62,7 @@ const userCRUDs = {
   //delete user and thoughts if user is deleted
   async deleteUser(req, res) {
     try {
-      const user = await User.findByIdAndDelete({ _id: req.params.id });
+      const user = await User.findByIdAndDelete(req.params.id);
 
       if (!user) {
         return res.status(404).json({ message: "No user found!" });
@@ -85,7 +85,7 @@ const userCRUDs = {
   async addFriend(req, res) {
     try {
       const updatedUser = await User.findByIdAndUpdate(
-        { _id: req.params.userId },
+        req.params.userId,
         { $addToSet: { friends: params.friendId } },
         { new: true }
       );
@@ -103,7 +103,7 @@ const userCRUDs = {
   async removeFriend(req, res) {
     try {
       const updatedUser = await User.findByIdAndUpdate(
-        { _id: req.params.id },
+        req.params.id,
         { $pull: { friends: req.params.friendId } },
         { new: true }
       );
