@@ -15,7 +15,7 @@ const userCRUDs = {
   //get single user by _id
   async getUser(req, res) {
     try {
-      //find user by _id:
+      //find user by id:
       const user = await User.findById(req.params.userId)
         .select("-__v")
         .populate("friends")
@@ -24,6 +24,7 @@ const userCRUDs = {
       if (!user) {
         return res.status(404).json({ message: "No user found!" });
       }
+
       res.json(user);
     } catch (err) {
       res.status(500).json(err);
@@ -44,7 +45,7 @@ const userCRUDs = {
   async updateUser(req, res) {
     try {
       const updatedUser = await User.findByIdAndUpdate(
-        req.params.id,
+        req.params.userId,
         { $set: req.body },
         { runValidators: true, new: true }
       );
@@ -62,13 +63,13 @@ const userCRUDs = {
   //delete user and thoughts if user is deleted
   async deleteUser(req, res) {
     try {
-      const user = await User.findByIdAndDelete(req.params.id);
+      const user = await User.findByIdAndDelete(req.params.userId);
 
       if (!user) {
         return res.status(404).json({ message: "No user found!" });
       }
       //delete user thoughts
-      await Thought.deleteMany({ userId: { $in: user.thoughts } });
+      await Thought.deleteMany({ _id: { $in: user.thoughts } });
       //update friends list once user is deleted
       await User.updateMany(
         { friends: { $in: [user._id] } },
@@ -86,7 +87,7 @@ const userCRUDs = {
     try {
       const updatedUser = await User.findByIdAndUpdate(
         req.params.userId,
-        { $addToSet: { friends: params.friendId } },
+        { $addToSet: { friends: req.params.friendId } },
         { new: true }
       );
 
@@ -103,7 +104,7 @@ const userCRUDs = {
   async removeFriend(req, res) {
     try {
       const updatedUser = await User.findByIdAndUpdate(
-        req.params.id,
+        req.params.userId,
         { $pull: { friends: req.params.friendId } },
         { new: true }
       );

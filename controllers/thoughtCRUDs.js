@@ -46,7 +46,7 @@ const thoughtCRUDSs = {
     }
   },
 
-  //update thought by _id
+  //update thought by id
   async updateThought(req, res) {
     try {
       const updatedThought = await Thought.findByIdAndUpdate(
@@ -62,7 +62,7 @@ const thoughtCRUDSs = {
     }
   },
 
-  //delete thought by _id
+  //delete thought by id
   async deleteThought(req, res) {
     try {
       const deletedThought = await Thought.findByIdAndDelete(
@@ -85,7 +85,7 @@ const thoughtCRUDSs = {
     }
   },
 
-  //add reaction to thought by _id
+  //add reaction to thought by id
   async addReaction(req, res) {
     try {
       const updatedThought = await Thought.findByIdAndUpdate(
@@ -102,7 +102,7 @@ const thoughtCRUDSs = {
     }
   },
 
-  //remove reaction by _id
+  //remove reaction by id
   async removeReaction(req, res) {
     try {
       const updatedThought = await Thought.findByIdAndUpdate(
