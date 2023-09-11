@@ -16,11 +16,10 @@ const thoughtCRUDSs = {
   async getThought(req, res) {
     try {
       const thought = await Thought.findById(req.params.thoughtId);
-
+      res.json(thought);
       if (!thought) {
         res.status(404).json({ message: "No thought found!" });
       }
-      res.json(thought);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -34,11 +33,10 @@ const thoughtCRUDSs = {
         { $push: { thoughts: newThought._id } },
         { new: true }
       );
-
+      res.json({ message: "Thought created successfully!" });
       if (!user) {
         return res.status(404).json({ message: "No user with this id!" });
       }
-      res.json({ message: "Thought created successfully!" });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -52,6 +50,7 @@ const thoughtCRUDSs = {
         { $set: req.body },
         { runValidators: true, new: true }
       );
+      res.json(updatedThought);
       if (!updatedThought) {
         return res.status(404).json({ message: "No thought found!" });
       }
@@ -66,6 +65,7 @@ const thoughtCRUDSs = {
       const deletedThought = await Thought.findByIdAndDelete(
         req.params.thoughtId
       );
+      res.json({ message: "Thought deleted successfully!" });
       if (!deletedThought) {
         return res.status(404).json({ message: "No thought found!" });
       }
@@ -77,7 +77,6 @@ const thoughtCRUDSs = {
       if (!user) {
         return res.status(404).json({ message: "No user found" });
       }
-      res.json({ message: "Thought successfully deleted!" });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -91,10 +90,10 @@ const thoughtCRUDSs = {
         { $addToSet: { reactions: req.body } },
         { runValidators: true, new: true }
       );
+      res.json(updatedThought);
       if (!updatedThought) {
         return res.status(404).json({ message: "No thought found" });
       }
-      res.json(updatedThought);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -108,10 +107,10 @@ const thoughtCRUDSs = {
         { $pull: { reactions: { reactionId: req.params.reactionId } } },
         { runValidators: true, new: true }
       );
+      res.json(updatedThought);
       if (!updatedThought) {
         return res.status(404).json({ message: "No thought found" });
       }
-      res.json(updatedThought);
     } catch (err) {
       res.status(500).json(err);
     }
