@@ -12,7 +12,7 @@ app.use(routes);
 db.once("open", () => {
   app.listen(PORT, () => {
     console.log(
-      "Social Network API server running on" + `http://localhost${PORT}!`
+      "Social Network API server running on " + `http://localhost${PORT}!`
     );
   });
 });

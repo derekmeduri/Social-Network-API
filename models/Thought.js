@@ -34,10 +34,10 @@ const ReactionSchema = new Schema(
 );
 
 //thought model
-const ThoughSchema = new Schema(
+const ThoughtSchema = new Schema(
   {
     thoughtText: {
-      typr: String,
+      type: String,
       required: true,
       minlength: 1,
       maxlength: 280,
@@ -68,7 +68,7 @@ ThoughtSchema.virtual("reactionCount").get(function () {
 });
 
 //create thought model with thought schema
-const Thought = model("Thought", ThoughSchema);
+const Thought = model("Thought", ThoughtSchema);
 
 //export thought model
 module.exports = Thought;
