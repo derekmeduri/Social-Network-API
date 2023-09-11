@@ -15,9 +15,7 @@ const thoughtCRUDSs = {
   //get thought by id
   async getThought(req, res) {
     try {
-      const thought = await Thought.findById(req.params.thoughtId).select(
-        "-__v"
-      );
+      const thought = await Thought.findById(req.params.thoughtId);
 
       if (!thought) {
         res.status(404).json({ message: "No thought found!" });
@@ -32,7 +30,7 @@ const thoughtCRUDSs = {
     try {
       const newThought = await Thought.create(req.body);
       const user = await User.findByIdAndUpdate(
-        req.params.userId,
+        { _id: req.body.userId },
         { $push: { thoughts: newThought._id } },
         { new: true }
       );
@@ -40,7 +38,7 @@ const thoughtCRUDSs = {
       if (!user) {
         return res.status(404).json({ message: "No user with this id!" });
       }
-      res.json({ message: "Thought successfully created!" });
+      res.json({ message: "Thought created successfully!" });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -72,7 +70,7 @@ const thoughtCRUDSs = {
         return res.status(404).json({ message: "No thought found!" });
       }
       const user = await User.findByIdAndUpdate(
-        req.params.thoughtId,
+        { thoughts: req.params.thoughtId },
         { $pull: { thoughts: req.params.thoughtId } },
         { new: true }
       );
