@@ -29,11 +29,12 @@ const ReactionSchema = new Schema(
       getters: true,
     },
     id: false,
+    timestamps: true,
   }
 );
 
 //thought model
-const ThoughtSchema = new Schema(
+const thoughtSchema = new Schema(
   {
     thoughtText: {
       type: String,
@@ -45,13 +46,13 @@ const ThoughtSchema = new Schema(
       type: Date,
       default: Date.now,
       get: (createdAtVal) =>
-        moment(createdAtVal).format("MMM D, YYYY [at] HH:mm a"),
+        moment(createdAtVal).format("MMM D, YYYY [at] hh:mm a"),
     },
     updatedAt: {
       type: Date,
       default: Date.now,
       get: (createdAtVal) =>
-        moment(createdAtVal).format("MMM D, YYYY [at] HH:mm a"),
+        moment(createdAtVal).format("MMM D, YYYY [at] hh:mm a"),
     },
     username: {
       type: String,
@@ -68,12 +69,12 @@ const ThoughtSchema = new Schema(
   }
 );
 //virtual property that gets amount of reactions per thought
-ThoughtSchema.virtual("reactionCount").get(function () {
+thoughtSchema.virtual("reactionCount").get(function () {
   return this.reactions.length;
 });
 
 //create thought model with thought schema
-const Thought = model("Thought", ThoughtSchema);
+const Thought = model("Thought", thoughtSchema);
 
 //export thought model
 module.exports = Thought;
