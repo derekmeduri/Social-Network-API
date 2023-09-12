@@ -10,6 +10,18 @@ const userSchema = new Schema(
       required: true,
       trim: true,
     },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: (createdAtVal) =>
+        moment(createdAtVal).format("MMM D, YYYY [at] hh:mm a"),
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now,
+      get: (createdAtVal) =>
+        moment(createdAtVal).format("MMM D, YYYY [at] hh:mm a"),
+    },
     email: {
       type: String,
       required: true,
@@ -42,6 +54,7 @@ const userSchema = new Schema(
 userSchema.virtual("friendCount").get(function () {
   return this.friends.length;
 });
+
 //user model created from the schema
 const User = model("User", userSchema);
 //export User
